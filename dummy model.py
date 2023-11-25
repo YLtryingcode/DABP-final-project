@@ -117,14 +117,13 @@ m.addConstr (R2<=0.5)
 
 # Optimize model
 
-m = model
-model.optimize()
+m.optimize()
 
 # OPTIGUIDE CONSTRAINT CODE GOES HERE
 
 # Solve
 m.update()
-model.optimize()
+m.optimize()
 
 print(time.ctime())
 if m.status == GRB.OPTIMAL:
