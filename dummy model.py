@@ -1,11 +1,8 @@
-import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 import gurobipy as gp
 from gurobipy import GRB
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+import time 
 from gurobipy import *
 import altair as alt
 import math
@@ -70,10 +67,15 @@ D=400
 #D is the minimum demand (t)
 P=350
 
+
+# Create a new model 
 #P is the minimum production (t)
 m = gp.Model()
 
-# Add decision varibles
+
+# OPTIGUIDE DATA CODE GOES HERE
+
+# Create variables
 # f - production volume from mining (t); X1 - hydrometallurgy production (t); X2 - pyrometallurgy
 #production (t);
 #Y1 - copper transportation by EV truck (t); Y2 - copper transportation by diesel truck (t); R1-
@@ -88,6 +90,21 @@ Y2 = m.addVar(name="Y2")
 R1 = m.addVar( name="R1")
 R2 = m.addVar( name="R2")
 
+
+
+# Set objective
+m.setObjective(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2, gp.GRB.MINIMIZE)
+# minimze cost 
+m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMf + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
+R1*EMR1 + (Y1+Y2) *R2*EMR2, gp.GRB.MINIMIZE)
+# minimze emissions
+m.setObjective(f*Ef + X1*E1+ X2*E2+ (X1+X2)*Em + Y1*Et1 +Y2*Et2+ (Y1+Y2)*R1*ER1 + (Y1+Y2)*R2*ER2
+, gp.GRB.MINIMIZE)
+# minimize energy 
+m.setParam('NonConvex', 2)
+m.optimize()
+
+
 # Add constraints
 m.addConstr (f == X1+X2)
 m.addConstr (Y1+Y2 == X1+X2+(Y1+Y2)*(R1+R2))
@@ -97,26 +114,15 @@ m.addConstr (Y1+Y2>=D)
 m.addConstr (R1<=0.5)
 m.addConstr (R2<=0.5)
 
-#Objective function
-m.setObjective(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2, gp.GRB.MINIMIZE)
-# minimze cost 
 
-m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMf + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
-R1*EMR1 + (Y1+Y2) *R2*EMR2, gp.GRB.MINIMIZE)
+# Optimize model
 
-# minimze emissions
-
-m.setObjective(f*Ef + X1*E1+ X2*E2+ (X1+X2)*Em + Y1*Et1 +Y2*Et2+ (Y1+Y2)*R1*ER1 + (Y1+Y2)*R2*ER2
-, gp.GRB.MINIMIZE)
-
-# minimize energy 
-m.setParam('NonConvex', 2)
-m.optimize()
+m = model
+model.optimize()
 
 # OPTIGUIDE CONSTRAINT CODE GOES HERE
 
 # Solve
-m = model
 m.update()
 model.optimize()
 
