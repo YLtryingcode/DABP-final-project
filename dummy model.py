@@ -112,3 +112,16 @@ m.setObjective(f*Ef + X1*E1+ X2*E2+ (X1+X2)*Em + Y1*Et1 +Y2*Et2+ (Y1+Y2)*R1*ER1 
 # minimize energy 
 m.setParam('NonConvex', 2)
 m.optimize()
+
+# OPTIGUIDE CONSTRAINT CODE GOES HERE
+
+# Solve
+m = model
+m.update()
+model.optimize()
+
+print(time.ctime())
+if m.status == GRB.OPTIMAL:
+    print(f'Optimal cost: {m.objVal}')
+else:
+    print("Not solved to optimality. Optimization status:", m.status)
