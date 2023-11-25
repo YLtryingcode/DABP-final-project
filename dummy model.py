@@ -10,7 +10,7 @@ from gurobipy import *
 import altair as alt
 import math
 
-
+# Example data
 #Cost parameters
 Cf=1
 # cost of mining
@@ -79,7 +79,7 @@ m = gp.Model()
 #Y1 - copper transportation by EV truck (t); Y2 - copper transportation by diesel truck (t); R1-
 #recycling rate of end-use to production (%)
 #R2- recycling rate of end-use to manufacturing (%)
-
+#create variables 
 f = m.addVar(name="f")
 X1 = m.addVar(name="X1")
 X2 = m.addVar(name="X2")
