@@ -44,23 +44,6 @@ EMR1=4
 EMR2=3
 #EMR2- emission factor of recycling of end-use to manufacturing (t CO2-eq/t)
 
-# Energy consumption factor
-Ef=8
-#Ef - energy consumption of mining (kwh/t)
-E1=4
-#E1 - energy consumption of hydrometallurgy production cost (kwh/t)
-E2=4
-#E2 - energy consumption of pyrometallurgy production cost (kwh/t)
-Em=9
-#Em - energy consumption of manufacturing (kwh/t)
-Et1=5
-#Et1 - energy consumption of copper transportation by EV truck cost (kwh/t)
-Et2 =7
-#Et2 - energy consumption of copper transportation by diesel truck cost (kwh/t)
-ER1=8
-#ER1- energy consumption of recycling of end-use to production cost (kwh/t)
-ER2=9
-#ER2- energy consumption of recycling of end-use to manufacturing cost (kwh/t)
 
 # Demand and production parameters
 D=400
@@ -98,9 +81,7 @@ m.setObjective(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+
 m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMf + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
 R1*EMR1 + (Y1+Y2) *R2*EMR2, gp.GRB.MINIMIZE)
 # minimze emissions
-m.setObjective(f*Ef + X1*E1+ X2*E2+ (X1+X2)*Em + Y1*Et1 +Y2*Et2+ (Y1+Y2)*R1*ER1 + (Y1+Y2)*R2*ER2
-, gp.GRB.MINIMIZE)
-# minimize energy 
+
 m.setParam('NonConvex', 2)
 m.optimize()
 
