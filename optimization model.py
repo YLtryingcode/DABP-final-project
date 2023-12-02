@@ -77,10 +77,12 @@ R2 = m.addVar( name="R2")
 
 
 # Set objective
-m.setObjective(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2, gp.GRB.MINIMIZE)
+α=0.5
+# weight factor
+cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
 # minimze cost 
-m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
-R1*EMR1 + (Y1+Y2) *R2*EMR2, gp.GRB.MINIMIZE)
+emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
+m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
 # minimze emissions
 
 m.setParam('NonConvex', 2)
