@@ -1,55 +1,60 @@
+import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 import gurobipy as gp
 from gurobipy import GRB
-import time 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from gurobipy import *
 import altair as alt
 import math
 
-# Example data
-#Cost parameters
-Cf=1
-# cost of mining
-C1=2
-#C1 - hydrometallurgy production cost ($/t)
-C2=3
-#C2 - pyrometallurgy production cost ($/t)
-Cm=6
-#Cm-cost of manufacuring ($/t)
-Ct1=4
-#Ct1 - copper transportation by EV truck cost ($/t)
-Ct2=5
-#Ct2 - copper transportation by diesel truck cost ($/t)
-CR1=6
-#CR1- recycling of end-use to production cost ($/t)
-CR2=7
-#CR2- recycling of end-use to manufacturing cost ($/t)
-# Emission factors 
-EMf=4
-#EMf - emission factor of mining (t CO2-eq/t)
-EM1=2
-#EM1 - emission factor of hydrometallurgy production (t CO2-eq/t)
-EM2=3
-#EM2 - emission factor of pyrometallurgy production (t CO2-eq/t)
 
-EMf= 8
-# EMf - emission factor of manufacturing (t CO2-eq/t)
-EMt1=4
-#EMt1 - emission factor of copper transportation by EV truck (t CO2-eq/t)
-EMt2=5
-#EMt2 - emission factor of copper transportation by diesel truck (t CO2-eq/t)
-EMR1=4
-#EMR1- emission factor of recycling of end-use to production (t CO2-eq/t)
-EMR2=3
-#EMR2- emission factor of recycling of end-use to manufacturing (t CO2-eq/t)
+#Cost parameters
+Cf=0.011 
+# cost of mining
+C1= 4.97
+#C1 - hydrometallurgy production cost ($/kg)
+C2=3.44
+#C2 - pyrometallurgy production cost ($/kg)
+Cm= 0.025
+#Cm-cost of manufacuring ($/kg)
+Ct1= 5.55
+#Ct1 - copper transportation by EV truck cost ($/kg)
+Ct2= 3.3
+#Ct2 - copper transportation by diesel truck cost ($/kg)
+CR1=3
+#CR1- recycling of end-use to production cost ($/kg)
+CR2=1.5
+#CR2- recycling of end-use to manufacturing cost ($/kg)
+
+
+# Emission factors 
+EMf= 2.4
+#EMf - emission factor of mining (kg CO2-eq/kg)
+EM1=3.25
+#EM1 - emission factor of hydrometallurgy production (kg CO2-eq/kg)
+EM2=5.24
+#EM2 - emission factor of pyrometallurgy production (kg CO2-eq/kg)
+
+EMm= 0.0013
+# EMm - emission factor of manufacturing (kg CO2-eq/kg)
+EMt1= 0.025
+#EMt1 - emission factor of copper transportation by EV truck (kg CO2-eq/kg)
+EMt2= 0.019
+#EMt2 - emission factor of copper transportation by diesel truck (kg CO2-eq/kg)
+EMR1=0.8
+#EMR1- emission factor of recycling of end-use to production (kg CO2-eq/kg)
+EMR2=0.4
+#EMR2- emission factor of recycling of end-use to manufacturing (kg CO2-eq/kg)
 
 
 # Demand and production parameters
-D=400
-#D is the minimum demand (t)
-P=350
-
+D=1.8*1000000000 
+#D is the minimum demand (kg)
+P=1.3*1000000000 
+#P is the minimum production (kg)
 
 # Create a new model 
 #P is the minimum production (t)
@@ -78,7 +83,7 @@ R2 = m.addVar( name="R2")
 # Set objective
 m.setObjective(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2, gp.GRB.MINIMIZE)
 # minimze cost 
-m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMf + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
+m.setObjective(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*
 R1*EMR1 + (Y1+Y2) *R2*EMR2, gp.GRB.MINIMIZE)
 # minimze emissions
 
