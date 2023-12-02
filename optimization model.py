@@ -1,12 +1,7 @@
 import time
-import numpy as np
 from scipy.integrate import odeint
-import matplotlib.pyplot as plt
 import gurobipy as gp
 from gurobipy import GRB
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from gurobipy import *
 import altair as alt
 import math
@@ -112,7 +107,7 @@ m.optimize()
 m.update()
 m.optimize()
 
-print(time.ctime())
+
 if m.status == GRB.OPTIMAL:
     print(f'Optimal cost: {m.objVal}')
 else:
