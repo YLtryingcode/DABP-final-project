@@ -65,7 +65,7 @@ m = gp.Model()
 #recycling rate of end-use to production (%)
 #R2- recycling rate of end-use to manufacturing (%)
 #create variables 
-f = m.addVar(name="f")
+f  = m.addVar(name="f")
 X1 = m.addVar(name="X1")
 X2 = m.addVar(name="X2")
 Y1 = m.addVar(name="Y1")
