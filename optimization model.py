@@ -57,6 +57,9 @@ P=1.3*1000000000
 m = gp.Model()
 
 
+
+# OPTIGUIDE DATA CODE GOES HERE
+
 # Create variables
 # f - production volume from mining (t); X1 - hydrometallurgy production (t); X2 - pyrometallurgy
 #production (t);
@@ -79,13 +82,11 @@ emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1
 
 α=0.5
 # weight factor
-
-# OPTIGUIDE DATA CODE GOES HERE
-
 # Optimize model
+# Set objective
+m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
 
-m.setParam('NonConvex', 2)
-m.optimize()
+
 
 
 
@@ -99,9 +100,10 @@ m.addConstr (Y1+Y2>=D)
 m.addConstr (R1<=0.5)
 m.addConstr (R2<=0.5)
 
-# Set objective
 
-m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
+#Optimize model 
+m.setParam('NonConvex', 2)
+m.optimize()
 
 # Solve
 m.update()
