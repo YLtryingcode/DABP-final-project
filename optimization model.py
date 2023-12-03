@@ -57,8 +57,6 @@ P=1.3*1000000000
 m = gp.Model()
 
 
-# OPTIGUIDE DATA CODE GOES HERE
-
 # Create variables
 # f - production volume from mining (t); X1 - hydrometallurgy production (t); X2 - pyrometallurgy
 #production (t);
@@ -74,14 +72,19 @@ Y2 = m.addVar(name="Y2")
 R1 = m.addVar( name="R1")
 R2 = m.addVar( name="R2")
 
+cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
+# minimze cost 
+emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
+
+# OPTIGUIDE DATA CODE GOES HERE
+
+
 
 
 # Set objective
 α=0.5
 # weight factor
-cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
-# minimze cost 
-emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
+
 m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
 # minimze emissions
 
