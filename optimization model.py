@@ -106,7 +106,7 @@ m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
 # Solve
 m.update()
 m.optimize()
-cost_result=cost.getValue()
-emissions_result= emissisons.getValue()
+cost_result=cost.X
+emissions_result= emissisons.X
 
 
