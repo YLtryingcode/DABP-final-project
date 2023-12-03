@@ -75,7 +75,8 @@ R2 = m.addVar( name="R2")
 cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
 # minimze cost 
 emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
-
+α=0.5
+# weight factor
 
 # OPTIGUIDE DATA CODE GOES HERE
 
@@ -97,8 +98,6 @@ m.addConstr (R1<=0.5)
 m.addConstr (R2<=0.5)
 
 # Set objective
-α=0.5
-# weight factor
 
 m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
 # minimze emissions
