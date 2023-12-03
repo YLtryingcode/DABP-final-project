@@ -114,7 +114,7 @@ m.optimize()
 
 
 if m.status == GRB.OPTIMAL:
-    print(f"cost value: {cost.getValue()}")
-    print(f"emissions  value: {emissisons.getValue()}")
+    cost_results=cost.getValue()
+    emissions= emissisons.getValue()
 else:
     print("Not solved to optimality. Optimization status:", m.status)
