@@ -76,22 +76,17 @@ cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R
 # minimze cost 
 emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
 
+
 # OPTIGUIDE DATA CODE GOES HERE
 
-
-
-
-# Set objective
-α=0.5
-# weight factor
-
-m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
-# minimze emissions
+# Optimize model
 
 m.setParam('NonConvex', 2)
 m.optimize()
 
 
+
+# OPTIGUIDE CONSTRAINT CODE GOES HERE
 # Add constraints
 m.addConstr (f == X1+X2)
 m.addConstr (Y1+Y2 == X1+X2+(Y1+Y2)*(R1+R2))
@@ -101,20 +96,17 @@ m.addConstr (Y1+Y2>=D)
 m.addConstr (R1<=0.5)
 m.addConstr (R2<=0.5)
 
+# Set objective
+α=0.5
+# weight factor
 
-# Optimize model
-
-m.optimize()
-
-# OPTIGUIDE CONSTRAINT CODE GOES HERE
+m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
+# minimze emissions
 
 # Solve
 m.update()
 m.optimize()
+cost_result=cost.getValue()
+emissions_result= emissisons.getValue()
 
 
-if m.status == GRB.OPTIMAL:
-    cost_results=cost.getValue()
-    emissions= emissisons.getValue()
-else:
-    print("Not solved to optimality. Optimization status:", m.status)
