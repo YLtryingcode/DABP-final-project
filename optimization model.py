@@ -58,7 +58,7 @@ m = gp.Model()
 
 
 
-# OPTIGUIDE DATA CODE GOES HERE
+
 
 # Create variables
 # f - production volume from mining (t); X1 - hydrometallurgy production (t); X2 - pyrometallurgy
@@ -75,20 +75,6 @@ Y2 = m.addVar(name="Y2")
 R1 = m.addVar( name="R1")
 R2 = m.addVar( name="R2")
 
-cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
-# minimze cost 
-emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
-# minimze emissions
-
-α=0.5
-# weight factor
-# Optimize model
-# Set objective
-m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
-
-
-
-
 
 # OPTIGUIDE CONSTRAINT CODE GOES HERE
 # Add constraints
@@ -100,6 +86,21 @@ m.addConstr (Y1+Y2>=D)
 m.addConstr (R1<=0.5)
 m.addConstr (R2<=0.5)
 
+
+
+α=0.5
+# weight factor
+# Optimize model
+cost= f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2
+# minimze cost 
+emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2
+# minimze emissions
+
+# Set objective
+m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
+
+
+# OPTIGUIDE DATA CODE GOES HERE
 
 #Optimize model 
 m.setParam('NonConvex', 2)
