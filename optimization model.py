@@ -98,7 +98,7 @@ emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1
 
 # Set objective
 α=0.5
-m.setObjective( α*cost+(1-α)*emissisons, gp.GRB.MINIMIZE)
+m.setObjective( α*(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2)+(1-α)*(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2), gp.GRB.MINIMIZE)
 
 
 # OPTIGUIDE DATA CODE GOES HERE
