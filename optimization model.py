@@ -52,6 +52,10 @@ D=1.8*1000000000
 P=1.3*1000000000 
 #P is the minimum production (kg)
 
+# weight factor 
+α=0.5
+# α is the weight factor for the objective function 
+
 # Create a new model 
 #P is the minimum production (t)
 m = gp.Model()
@@ -97,7 +101,6 @@ emissisons= f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1
 # minimze emissions
 
 # Set objective
-α=0.5
 m.setObjective( α*(f*Cf + X1*C1+ X2*C2+ (X1+X2)*Cm + Y1*Ct1+ Y2*Ct2 +(Y1+Y2)*R1*CR1+(Y1+Y2)*R2*CR2)+(1-α)*(f*EMf + X1*EM1+ X2*EM2+ (X1+X2)*EMm + Y1*EMt1 + Y2*EMt2 + (Y1+Y2)*R1*EMR1 + (Y1+Y2) *R2*EMR2), gp.GRB.MINIMIZE)
 
 
