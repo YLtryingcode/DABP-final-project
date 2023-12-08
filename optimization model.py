@@ -107,11 +107,12 @@ cost=cost.getValue()
 emissions= emissisons.getValue()
 
 #Optimize model 
-m.setParam('NonConvex', 2)
+
 m.optimize()
 
 # OPTIGUIDE DATA CODE GOES HERE
 # Solve
+m.setParam('NonConvex', 2)
 m.update()
 m.optimize()
 
